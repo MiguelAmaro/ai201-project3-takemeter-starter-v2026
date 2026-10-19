@@ -166,17 +166,17 @@ of next unit's variance. -->
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* A rewrite of `post-fetch.py` so it produces a single unsplit `labels.csv` with `text`, `label` and `note` columns, holding at least 200 whole posts.
+- *What came back:* A script that pulls dev.to posts, fetches each full post body (the list endpoint only returns summaries), de-duplicates, and writes 220 rows with blank labels. The first version of my old script had only collected titles and descriptions into a different file.
+- *What I changed:* I kept the script's output as-is but removed the old `candidate_posts.csv`. When the first 220 posts came back 83% `informative`, I had it collect 57 more from `showdev`, `buildinpublic`, `sideprojects` and `devjournal` to get under the 70% limit, and I dropped 27 posts that fit neither label.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Labels for all posts using my taxonomy, my definitions of `informative` and `dev_log`, and my decision rule.
+- *What came back:* A label for every post, made from each post's title and opening, with a short reason in `note`. This produced 156 `informative` and 94 `dev_log`.
+- *What I changed:* I treated the labels as a first pass and am spot-checking them against the full text, because the AI only read previews. Borderline posts, such as benchmark write-ups of existing tech versus write-ups of the author's own tool, are the ones I am checking most closely. <!-- add which labels you actually flipped -->
 
-**Pre-labelling disclosure:**
+**Pre-labelling disclosure:** Yes, I did not label the data cold. GitHub Copilot pre-labelled all 250 posts from their titles and openings, using the definitions and decision rule above. It did not read every post in full. I am reviewing and correcting them myself. <!-- state how many you reviewed/changed when done -->
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
