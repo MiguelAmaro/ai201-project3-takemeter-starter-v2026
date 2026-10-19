@@ -55,34 +55,37 @@ This project uses posts from the DEV Community (dev.to) to train a text classifi
      The decision rule is worth a point on its own and it's the thing most
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
-### `label_one`
+### `informative`
 
 **Definition:**
-
+A post primarily explaining an existing technology, its capabilities, or how it can be used.
 **Example 1:**
->
+>An article explaining how Redis caching works and when to use it.
 
 **Example 2:**
->
+>An article explaining React hooks, their capabilities, and their appropriate use cases.
 
-### `label_two`
+### `dev_log`
 
 **Definition:**
-
+A post primarily documenting the development, implementation, or capabilities of a specific software project created by the author.
 **Example 1:**
->
+>https://dev.to/gramli/i-vibe-coded-my-way-out-of-angular-upgrades-4fkh?utm_source=chatgpt.com
 
 **Example 2:**
->
+>An article documenting the development of a personal application, including its features and implementation decisions.
 
 ### The hardest boundary
 
 **Which two labels:**
 
+informative and dev_log
+
 **The decision rule I used every time:**
 <!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
      if the tone is heated." -->
 
+If the post primarily explains a technology or technique independently of a specific project, classify it as informative. If the post primarily documents the author's own software project, its implementation, or its capabilities, classify it as dev_log.
 
 
 ---
