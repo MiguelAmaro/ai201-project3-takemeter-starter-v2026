@@ -51,62 +51,62 @@ whether you hit them:
 
 ---
 
-## 1.
+## 1. Overall classification accuracy
 
 <!-- Your criterion. It must name a number. -->
-
+The classifier must achieve an overall accuracy of at least 75% on the held-out test dataset.
 
 
 **Why this target:**
-
+Since this is a binary classification task, random guessing on a balanced dataset would achieve approximately 50% accuracy. A 75% target would demonstrate that the model has learned meaningful distinctions between informative articles and development logs.
 
 
 ---
 
-## 2.
+## 2. Informative classification performance
 
 <!-- Your criterion. -->
-
+The informative label must achieve an F1 score of at least 0.70 on the held-out test dataset.
 
 
 **Why this target:**
-
+Informative articles may reference personal projects when explaining technical concepts. An F1 score of 0.70 would indicate that the classifier can reasonably distinguish educational explanations from project documentation.
 
 
 ---
 
-## 3.
+## 3. Dev log classification performance
 
 <!-- Your criterion. -->
-
+The dev_log label must achieve an F1 score of at least 0.70 on the held-out test dataset.
 
 
 **Why this target:**
-
+Development logs frequently include explanations of technical implementations, making them potentially difficult to distinguish from informative articles. This target measures whether the classifier recognizes the primary focus of the article.
 
 
 ---
 
-## 4.
+## 4. Dataset label balance
 
 <!-- Your criterion. -->
-
+Neither informative nor dev_log may represent more than 60% of the labeled dataset.
 
 
 **Why this target:**
-
+With approximately 200 posts and only two labels, maintaining a reasonably balanced dataset reduces the risk of the classifier favoring the more common category.
 
 
 ---
 
-## 5.
+## 5. Classification consistency
 
 <!-- Your criterion. -->
-
+When independently labeling a sample of 30 articles twice using the same taxonomy, at least 85% of the assigned labels must agree.
 
 
 **Why this target:**
-
+The boundary between informative articles and development logs can be ambiguous. An 85% agreement target tests whether the taxonomy is sufficiently clear to produce consistent labeling decisions.
 
 
 ---
