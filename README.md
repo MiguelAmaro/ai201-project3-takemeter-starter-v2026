@@ -42,6 +42,7 @@
 <!-- Your community, and what your classifier sorts posts into. Three or four
      sentences. -->
 
+This project uses posts from the DEV Community (dev.to) to train a text classifier. The classifier sorts posts into two categories: **DevLog** and **Informative**. DevLog posts primarily document the development or progress of a specific software project, while Informative posts primarily explain technical concepts, tools, or techniques. This classification helps readers distinguish project-focused content from educational content.
 
 
 ---
