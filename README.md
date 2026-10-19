@@ -95,19 +95,19 @@ If the post primarily explains a technology or technique independently of a spec
 <!-- Where you collected from, how you labelled, your counts, and three hard
      cases. -->
 
-**Where the posts came from:**
+**Where the posts came from:** 250 public dev.to posts, collected through the dev.to API (`https://dev.to/api/articles`) and saved whole (title + full markdown body, nothing trimmed) in a single unsplit `labels.csv`. The first 220 came from the site's latest-articles feed. That feed skewed heavily toward `informative` (83%), so I added 57 posts from the `showdev`, `buildinpublic`, `sideprojects` and `devjournal` tags to bring in thin `dev_log` examples. I removed 27 posts that fit neither label (welcome threads, meme threads, "win this week" prompts, weekly roundups, challenge announcements, one-line model-availability notices) and de-duplicated by text and URL. Posts are 948 to 56,101 characters long (median about 10,000). Each row's `note` records the reason for the label and the post URL.
 
-**How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
-Say so plainly — the disclosure is required, not penalised. -->
+**How I labelled them:** Pre-labelled with AI, not cold. GitHub Copilot read the title and opening of each post and applied my taxonomy and decision rule; I have not yet re-read each full post and am correcting labels as I spot-check. Because it worked from previews, the borderline posts (below) are the most likely to be wrong.
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| `informative` | 156 | 62.4% |
+| `dev_log` | 94 | 37.6% |
+| **Total** | 250 | 100% |
+
+Neither label is above the 70% limit. There are no duplicate posts.
 
 **Three hard cases**
 
@@ -115,25 +115,25 @@ Say so plainly — the disclosure is required, not penalised. -->
      been, and what you chose. These are worth more than the easy 190. -->
 
 **1.**
-> *The post:*
+> *The post:* "Publishing Markdown to Substack from an Agent Skill", a step-by-step walkthrough of one destination in the author's own `publishing-kit`.
 >
-> *Could have been:*
+> *Could have been:* `informative` (it teaches Substack's publishing quirks) or `dev_log` (it documents the author's own tool).
 >
-> *I chose, because:*
+> *I chose:* `dev_log`, because the post is built around the implementation and capabilities of the author's own project rather than a technique that stands apart from it.
 
 **2.**
-> *The post:*
+> *The post:* "Gemma 4 on a Used 8 GB RTX 3050: 116 Tokens/s for One User, 618 for 64", and the other benchmark and deployment write-ups in the same series.
 >
-> *Could have been:*
+> *Could have been:* `dev_log` (a first-person build with measured results) or `informative` (it explains what an existing model can do on given hardware).
 >
-> *I chose, because:*
+> *I chose:* `informative`, because the subject is an existing technology (Gemma 4) and what it can do, and the author's own code is only a vehicle for the measurements.
 
 **3.**
-> *The post:*
+> *The post:* "Building Better Agents through End-to-End Evals", where the author describes building Ramp Stack, with advice for other teams.
 >
-> *Could have been:*
+> *Could have been:* `dev_log` (it describes a specific product the author's team built) or `informative` (it teaches a general technique).
 >
-> *I chose, because:*
+> *I chose:* `informative`, because the lessons about evals are meant to apply regardless of that project; the project is an illustration, not the subject.
 
 ---
 
