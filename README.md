@@ -192,14 +192,15 @@ of next unit's variance. -->
 
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Overall accuracy |0.605  | 0.632 |  +0.026|
+| Macro F1 | 0.553 | -0.166 | -0.166 |
+| F1 — `label_one` | 0.400 | 0.00 |-0.400  | 
+| F1 — `label_two` | 0.706 | 0.774 |+0.068  |
 
 **What I predicted before I looked:**
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
      prediction made afterwards isn't one. -->
+I predict my fine-tuned model will outperform the baseline when distinguishing informative posts from dev_log posts that contain technical explanations, because it was trained on examples reflecting my taxonomy.
 
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added

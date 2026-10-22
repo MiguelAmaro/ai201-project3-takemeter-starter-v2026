@@ -5,6 +5,10 @@
 #
 # Delete the examples below and put yours in.
 
-analysis: makes an argument backed by a specific, checkable fact
-hot_take: a confident claim with no support offered
-reaction: an immediate response to something that just happened
+# analysis: makes an argument backed by a specific, checkable fact
+# hot_take: a confident claim with no support offered
+# reaction: an immediate response to something that just happened
+
+
+informative: A post primarily explaining an existing technology, its capabilities, or how it can be used.
+dev_log: A post primarily documenting the development, implementation, or capabilities of a specific software project created by the author.
