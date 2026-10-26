@@ -279,7 +279,7 @@ I predict my fine-tuned model will outperform the baseline when distinguishing i
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
 
-**Agreement rate:** ___ / 30 = ___%
+**Agreement rate:** 30 / 30 =100%
 
 <!-- Nobody grades this number. A 60% who argues every disagreement from the
      stated rules beats a 95% who wrote "staff was right" nine times. Several
@@ -287,6 +287,7 @@ I predict my fine-tuned model will outperform the baseline when distinguishing i
      winning some of these. -->
 
 **Disagreements**
+No disagreements were reported between my submitted labels and the staff reference labels.
 
 <!-- Three lines each: the post, both labels, and who you think is right and
      why — grounded in the staff definitions you were both applying.
@@ -321,7 +322,9 @@ I predict my fine-tuned model will outperform the baseline when distinguishing i
 
 **What the pattern in my disagreements tells me:**
 
+he submitted labels matched the staff reference labels on all 30 posts. Therefore, the agreement test produced no disagreements to adjudicate.
 
+However, this result does not independently establish the clarity of the taxonomy or my ability to apply it consistently.
 
 ---
 
