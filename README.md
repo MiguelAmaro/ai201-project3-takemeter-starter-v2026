@@ -217,22 +217,22 @@ I predict my fine-tuned model will outperform the baseline when distinguishing i
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall classification Accuracy  |≥75% | 63.2%| 63.2% | 63.2% | Missed |
+| 2. Informative classification Performance |≥0.70  | - | - | - | Pending |
+| 3. Dev log classification performance |≥0.70  | - | - | - | Pending |
+| 4. Dataset label balance | ≤60% per label | n/a | n/a | n/a |  Missed |
+| 5. Classification consistency | ≥85% agreement | n/a | n/a | n/a | Pending |
 
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |  |  |  |
+| true \ predicted |informative| dev_log | n/a |
 |---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| informative | 24 | 0 | n/a |
+| dev_log | 14 | 0 | n/a |
+| **** | n/a | n/a | n/a |
 
 **My biggest off-diagonal number, and what it means:**
 <!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
