@@ -324,7 +324,7 @@ No disagreements were reported between my submitted labels and the staff referen
 
 he submitted labels matched the staff reference labels on all 30 posts. Therefore, the agreement test produced no disagreements to adjudicate.
 
-However, this result does not independently establish the clarity of the taxonomy or my ability to apply it consistently.
+However, this result does not independently establish the clarity of the taxonomy or my ability to apply it consistently. 
 
 ---
 
