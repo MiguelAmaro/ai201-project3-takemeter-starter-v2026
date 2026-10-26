@@ -60,20 +60,20 @@ This project uses posts from the DEV Community (dev.to) to train a text classifi
 **Definition:**
 A post primarily explaining an existing technology, its capabilities, or how it can be used.
 **Example 1:**
->An article explaining how Redis caching works and when to use it.
+>"[AI in Practice] Upgrading from Gemini 3.5/3.6 to Gemini 4 Argon: Migration Notes and Pitfalls for LINE Bot Developers" — explains a technology migration and its pitfalls.
 
 **Example 2:**
->An article explaining React hooks, their capabilities, and their appropriate use cases.
+>"Gemma 4 on a Used 8 GB RTX 3050: 116 Tokens/s for One User, 618 for 64" — focuses on the capabilities and measured performance of an existing model.
 
 ### `dev_log`
 
 **Definition:**
 A post primarily documenting the development, implementation, or capabilities of a specific software project created by the author.
 **Example 1:**
->https://dev.to/gramli/i-vibe-coded-my-way-out-of-angular-upgrades-4fkh?utm_source=chatgpt.com
+>"Building ora-tui with Google Antigravity & Gemini 4 Argon: An MS-DOS Retro TUI & OpenTelemetry Exporter for Oracle RAC, DB & SAN Multipath" — documents the author's own project and its implementation.
 
 **Example 2:**
->An article documenting the development of a personal application, including its features and implementation decisions.
+>"DuckLess: serverless DuckDB on Google Cloud, in your own project" — presents a tool the author built and how it works.
 
 ### The hardest boundary
 
@@ -107,7 +107,8 @@ If the post primarily explains a technology or technique independently of a spec
 | `dev_log` | 94 | 37.6% |
 | **Total** | 250 | 100% |
 
-Neither label is above the 70% limit. There are no duplicate posts.
+Neither label is above the 70% limit, but `informative` is 62.4%, so the
+dataset misses my stricter 60% balance target. There are no duplicate posts.
 
 **Three hard cases**
 
@@ -141,17 +142,18 @@ Neither label is above the 70% limit. There are no duplicate posts.
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** `distilbert-base-uncased`
 
-**Settings:** <!-- epochs, learning rate, batch size, seed -->
+**Settings:** 3 epochs, learning rate `2e-5`, batch size 16, seed 42,
+maximum sequence length 128 tokens.
 
-**Anything I changed from the defaults, and why:**
+**Anything I changed from the defaults, and why:** Nothing. I used the
+notebook's default training settings.
 
-**Split sizes:** <!-- train / val / test, and per-label counts in the test
-split. If a label had fewer than about 8 in test, say so — it explains a lot
-of next unit's variance. -->
+**Split sizes:**
 
-
+Train: 174; validation: 38; test: 38. The test set contains 24 `informative`
+and 14 `dev_log` posts; neither label is below eight examples.
 
 ---
 
@@ -174,9 +176,9 @@ of next unit's variance. -->
 
 - *What I asked for:* Labels for all posts using my taxonomy, my definitions of `informative` and `dev_log`, and my decision rule.
 - *What came back:* A label for every post, made from each post's title and opening, with a short reason in `note`. This produced 156 `informative` and 94 `dev_log`.
-- *What I changed:* I treated the labels as a first pass and am spot-checking them against the full text, because the AI only read previews. Borderline posts, such as benchmark write-ups of existing tech versus write-ups of the author's own tool, are the ones I am checking most closely. <!-- add which labels you actually flipped -->
+- *What I changed:* I treated the labels as a first pass and am spot-checking them against the full text, because the AI only read previews. Borderline posts, such as benchmark write-ups of existing tech versus write-ups of the author's own tool, are the ones I am checking most closely. I have not yet completed a full review of all 250 posts, and I do not have a verified count of labels checked or changed.
 
-**Pre-labelling disclosure:** Yes, I did not label the data cold. GitHub Copilot pre-labelled all 250 posts from their titles and openings, using the definitions and decision rule above. It did not read every post in full. I am reviewing and correcting them myself. <!-- state how many you reviewed/changed when done -->
+**Pre-labelling disclosure:** Yes, I did not label the data cold. GitHub Copilot pre-labelled all 250 posts from their titles and openings, using the definitions and decision rule above. It did not read every post in full. I am still reviewing and correcting them; the full review is not complete.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
@@ -192,10 +194,10 @@ of next unit's variance. -->
 
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |0.605  | 0.632 |  +0.026|
-| Macro F1 | 0.553 | -0.166 | -0.166 |
-| F1 — `label_one` | 0.400 | 0.00 |-0.400  | 
-| F1 — `label_two` | 0.706 | 0.774 |+0.068  |
+| Overall accuracy | 0.605 | 0.632 | +0.026 |
+| Macro F1 | 0.553 | 0.387 | -0.166 |
+| F1 — `informative` | 0.706 | 0.774 | +0.068 |
+| F1 — `dev_log` | 0.400 | 0.000 | -0.400 |
 
 **What I predicted before I looked:**
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
@@ -203,9 +205,10 @@ of next unit's variance. -->
 I predict my fine-tuned model will outperform the baseline when distinguishing informative posts from dev_log posts that contain technical explanations, because it was trained on examples reflecting my taxonomy.
 
 **What the gap actually means:**
-<!-- If the baseline matched your trained model, your fine-tuning added
-     nothing — and that is a real finding, not a failure. Say it plainly. -->
-
+Fine-tuning raised accuracy by only 2.6 percentage points, while macro F1
+dropped by 16.6 points. The trained model predicted every test post as
+`informative`: it improved that label's F1 but failed completely on `dev_log`.
+So the small accuracy gain hides a serious failure on one class.
 
 
 ---
@@ -217,29 +220,34 @@ I predict my fine-tuned model will outperform the baseline when distinguishing i
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1. Overall classification Accuracy  |≥75% | 63.2%| 63.2% | 63.2% | Missed |
-| 2. Informative classification Performance |≥0.70  | - | - | - | Pending |
-| 3. Dev log classification performance |≥0.70  | - | - | - | Pending |
-| 4. Dataset label balance | ≤60% per label | n/a | n/a | n/a |  Missed |
-| 5. Classification consistency | ≥85% agreement | n/a | n/a | n/a | Pending |
+| 1. Overall accuracy | ≥75% | 63.2% | 63.2% | 63.2% | Missed |
+| 2. `informative` F1 | ≥0.70 | 0.774 | 0.774 | 0.774 | Met |
+| 3. `dev_log` F1 | ≥0.70 | 0.000 | 0.000 | 0.000 | Missed |
+| 4. Dataset label balance | ≤60% per label | 62.4% | 62.4% | 62.4% | Missed |
+| 5. Classification consistency | ≥85% agreement | 100% | 100% | 100% | Met |
+
+The consistency result is one fixed 30-post staff comparison, not three
+independent runs; it is repeated in the columns because the measure does not
+depend on the training seed.
 
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |informative| dev_log | n/a |
-|---|---|---|---|
-| informative | 24 | 0 | n/a |
-| dev_log | 14 | 0 | n/a |
-| **** | n/a | n/a | n/a |
+| True \ Predicted | `informative` | `dev_log` |
+|---|---:|---:|
+| `informative` | 24 | 0 |
+| `dev_log` | 14 | 0 |
 
 **My biggest off-diagonal number, and what it means:**
 <!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
      direction. "7 real analysis posts were called hot_take and only 3 went the
      other way" is a direction, not just an error rate. -->
 
-
+All 14 actual `dev_log` posts were predicted as `informative`, while no
+`informative` posts were predicted as `dev_log`. The model did not learn the
+`dev_log` side of this boundary at all on this test set.
 
 ---
 
@@ -250,11 +258,11 @@ I predict my fine-tuned model will outperform the baseline when distinguishing i
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Overall accuracy | ≥75% | Missed | All three seeds scored 63.2%. |
+| 2 | `informative` F1 | ≥0.70 | Met | All three seeds scored 0.774. |
+| 3 | `dev_log` F1 | ≥0.70 | Missed | All three seeds scored 0.000. |
+| 4 | Dataset label balance | ≤60% per label | Missed | `informative` is 62.4% of the 250 posts. |
+| 5 | Classification consistency | ≥85% agreement | Met | Agreement report: 30 of 30 staff-taxonomy posts matched. |
 
 **Diagnoses**
 
@@ -267,7 +275,21 @@ I predict my fine-tuned model will outperform the baseline when distinguishing i
      have that can tell a LABELLING problem from a MODEL problem, and this
      section is graded on whether you used it that way. -->
 
+**Accuracy and `dev_log` performance:** The repeated result across all three
+seeds is a systematic `informative`-only prediction, not a one-seed fluctuation.
+There were 14 `dev_log` examples in each test split, so the zero F1 is not due
+to having fewer than eight test examples. The dataset is also over my balance
+limit (`informative` is 62.4%); that imbalance may contribute, but it does not
+by itself prove the cause. Posts can be very long while the model reads at
+most 128 tokens, so truncation may hide project-specific details. This is a
+plausible cause to test, not a confirmed diagnosis.
 
+**Consistency evidence and its limit:** I matched the staff labels on all 30
+posts under the separate staff taxonomy, exceeding the 85% target. This is
+evidence that I could apply that written taxonomy on this sample; it does not
+validate my `informative`/`dev_log` labels, which use a different taxonomy.
+The staff agreement result therefore cannot explain away the model's failure
+on `dev_log`.
 
 ---
 
@@ -279,7 +301,7 @@ I predict my fine-tuned model will outperform the baseline when distinguishing i
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
 
-**Agreement rate:** 30 / 30 =100%
+**Agreement rate:** 30 / 30 = 100%
 
 <!-- Nobody grades this number. A 60% who argues every disagreement from the
      stated rules beats a 95% who wrote "staff was right" nine times. Several
@@ -289,67 +311,44 @@ I predict my fine-tuned model will outperform the baseline when distinguishing i
 **Disagreements**
 No disagreements were reported between my submitted labels and the staff reference labels.
 
-<!-- Three lines each: the post, both labels, and who you think is right and
-     why — grounded in the staff definitions you were both applying.
-
-     Then sort each into one of three piles:
-       (a) the rule covered it and I applied it loosely → a consistency problem
-       (b) the rule genuinely doesn't say               → a gap in the definitions
-       (c) the rule is ambiguous here and my reading is defensible → argue it.
-           This is a legitimate win.
-
-     Pile (a) is the one that matters most for your diagnosis: if you applied a
-     written rule two different ways on 30 posts, that is direct evidence about
-     what you did across your own 200. -->
-
-**1.**
-> *The post:*
->
-> *Staff said / I said:*
->
-> *My call, and why:*
->
-> *Which pile:*
-
-**2.**
-> *The post:*
->
-> *Staff said / I said:*
->
-> *My call, and why:*
->
-> *Which pile:*
-
 **What the pattern in my disagreements tells me:**
 
-he submitted labels matched the staff reference labels on all 30 posts. Therefore, the agreement test produced no disagreements to adjudicate.
-
-However, this result does not independently establish the clarity of the taxonomy or my ability to apply it consistently. 
+There were no disagreements to adjudicate: my labels matched the staff
+reference on all 30 posts. That is a perfect result on this sample, but it
+does not independently establish that the taxonomy is always clear or that my
+separate project labels are consistent.
 
 ---
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** No improvement run is recorded yet. I have not changed
+the training setup or produced an after-run results file, so I cannot claim
+that a fix helped.
 
-**Which diagnosis pointed at it:**
+**Which diagnosis pointed at it:** The model predicts every test post as
+`informative` and has 0.000 `dev_log` F1 across all three seeds. A next
+experiment should address the `dev_log` false negatives and test whether
+longer input or a training adjustment helps, while keeping the same held-out
+evaluation protocol.
 
 ### Run Log — After
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥75% | Not run | Not run | Not run | Pending |
+| 2. `informative` F1 | ≥0.70 | Not run | Not run | Not run | Pending |
+| 3. `dev_log` F1 | ≥0.70 | Not run | Not run | Not run | Pending |
+| 4. Dataset label balance | ≤60% per label | Not changed | Not changed | Not changed | Missed |
+| 5. Classification consistency | ≥85% agreement | Not retested | Not retested | Not retested | Pending |
 
 **Did it help, and how do I know:**
 
 <!-- If it didn't, say so. Relabelling that didn't help is a genuinely
      interesting result and earns full credit. -->
 
-
+I cannot tell yet because no after run has been completed. The before-run
+results remain the only measured model results.
 
 ---
 
@@ -357,13 +356,22 @@ However, this result does not independently establish the clarity of the taxonom
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
-
+The overall-accuracy and `dev_log` F1 targets remain missed. I would first
+review the `dev_log` examples and experiment with giving the model more of
+each post than the current 128-token limit, then rerun all three seeds. I
+would also bring the dataset within the 60% balance target by collecting and
+reviewing more `dev_log` posts rather than relabelling examples just to change
+the ratio. These follow-up experiments have not been run yet, so I am not
+claiming they will fix the problem.
 
 **The gap between what I meant my labels to capture and what the model
 learned:**
 <!-- Two sentences. Your confusion matrix is the evidence. -->
 
-
+I meant `dev_log` to identify posts centered on the author's own software
+project, but the model labeled every held-out post `informative`. It therefore
+did not learn the distinction I intended, even though it correctly identified
+all 24 informative examples in this test split.
 
 <!-- ═════════════════════════════════════════════════════════════════════
 
